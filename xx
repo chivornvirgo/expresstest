@@ -1,0 +1,56 @@
+WingChat Squen diagram
+Components:
+	User
+	WingBank app
+	VoIP SDK/PWA
+	Wing VoIP Backend
+	Subscriber management
+	Mediatel Backend/Telephony server
+Flow:
+1. [User] Open using [WingBank app]
+2. [User] open [VoIP SDK/PWA] app through [WingBank app] passing following data
+- in case full login or patial login passing master_account_id, phone_number....
+- incase unautenticated pass uuid, phone number .... 
+3. [VoIP SDK/PWA] send data to [Wing VoIP Backend]
+4. [Wing VoIP Backend] validate and send data to [Subscriber management]
+5. [Subscriber management] issue and response back auth token to [Wing VoIP Backend]
+6. [Wing VoIP Backend] response back auth token to [VoIP SDK/PWA]
+7. [User(VoIP SDK/PWA)] intialize VoIP call to [Mediatel Backend/Telephony server]
+8. [Mediatel Backend/Telephony server] response back ok
+9. [VoIP SDK/PWA] Place VoIP call to [Mediatel Backend/Telephony server]
+10. User in call action mute/unmute , send DTMF, hangup to [Mediatel Backend/Telephony server]
+11. when call end [Mediatel Backend/Telephony server] response back call and agent info to [VoIP SDK/PWA]
+12. [VoIP SDK/PWA] show rating UI
+13. [VoIP SDK/PWA] send rating request to [Wing VoIP Backend]
+14. end
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+WingChat Squen diagram
+Components:
+	User
+	WingBank app
+	WingChat
+	WingChat Backend
+	Google Firebase
+	Mediatel Server
+	Mediatel Agent app
+	Agent
+Flow:
+1. [User] Open using [WingBank app]
+2. [User] open [Wingchat] app through [WingBank app] passing following data
+- in case full login or patial login passing master_account_id, phone_number....
+- incase unautenticated pass uuid, phone number .... 
+3. [WingChat] send data to [WingChat Backend]
+4. [WingChat backend] lookup for profile 
+- in case exist return custom token back to [WingChat]
+- in case not exist create profile then return custom token back to [WingChat]
+5. [WingChat] send custom token to [Google Firebase] then [Google Firebase] response back Id token, refresh token to [WingChat]
+6. [WingChat(user)] send message to [WingChat Backend] 
+7. [WingChat backend] forward message to [Mediatel Server]
+8. [Mediatel Server] forward message to [Mediatel Agent app]
+
+9.[Agent] reply message in [Mediatel Agent app]
+10. [Mediatel Agent app] forward to [Mediatel Server]
+11. [Mediatel Server] send message to [WingChat Backend] 
+12. [WingChat Backend] response back to [WingChat]
